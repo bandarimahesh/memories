@@ -1,11 +1,25 @@
-import Express from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
-
+import dotenv from "dotenv";
 const app = express();
 
+dotenv.config();
+
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(cors());
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, function () {
-  console.log(`The server is listening on ${PORT}`);
-});
+
+mongoose
+  .connect(process.env.CONNECTION_URL, { useNewUrlParser: true })
+  .then(() =>
+    app.listen(PORT, function () {
+      console.log("server running on port 5000");
+    })
+  )
+  .catch((error) => console.log(error.message));
+
+// mongoose.set("useFindAndModify", false);
