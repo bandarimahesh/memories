@@ -9,6 +9,7 @@ export const getPosts = async function (req, res) {
     res.status(404).json({ error: error.message });
   }
 };
+
 // creating the new post adding to db
 export const createPost = async function (req, res) {
   const post = req.body;
